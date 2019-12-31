@@ -1,8 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import Person from "./Person/Person";
-import Button from "@material-ui/core/Button";
+import Persons from "../components/Persons/Persons";
+import Cockpit from "../components/Cockpit/Cockpit";
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log("Constructor");
+  }
+
   state = {
     persons: [
       { id: "11da", nombre: "Alonso", edad: 10 },
@@ -10,6 +15,11 @@ class App extends Component {
     ],
     exist: false
   };
+
+  static getDerivedStateFromPros(props, state) {
+    console.log("getDerivedStateFromPros", props);
+    return state;
+  }
 
   nameChangedHandler = (event, id) => {
     const personIndex = this.state.persons.findIndex(p => {
@@ -43,46 +53,35 @@ class App extends Component {
   };
 
   render() {
-    const buttonStyle = {
-      marginTop: "10px",
-      marginButton: "10px"
-    };
-
+    console.log("render");
     var persons = null;
 
     if (this.state.exist) {
       persons = (
         <div>
-          {this.state.persons.map((person, index) => {
-            return (
-              <Person
-                nombre={person.nombre}
-                edad={person.edad}
-                changed={event => this.nameChangedHandler(event, person.id)}
-                click={() => this.deletePersonHandler(index)}
-                key={person.id}
-              />
-            );
-          })}
+          <Persons
+            persons={this.state.persons}
+            clicked={this.deletePersonHandler}
+            changed={this.nameChangedHandler}
+          />
         </div>
       );
     }
 
     return (
       <div className="App">
-        <div style={buttonStyle}>
-          <Button
-            onClick={this.togglePersonHandler}
-            stylvaliane={buttonStyle}
-            variant="contained"
-            color="secondary"
-          >
-            Toggle Person
-          </Button>
-        </div>
+        <Cockpit
+          showPersons={this.state.exist}
+          persons={this.state.persons}
+          clicked={this.togglePersonHandler}
+        />
         {persons}
       </div>
     );
+  }
+
+  componentDidMount() {
+    console.log("componenDidMount");
   }
 }
 
