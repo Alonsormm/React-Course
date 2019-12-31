@@ -1,9 +1,9 @@
 import React from "react";
-import "./Person.css";
 import TextField from "@material-ui/core/TextField";
+import cssClasses from "./Person.module.css";
 const person = props => {
   return (
-    <div className="Person">
+    <div className={cssClasses.Person}>
       <p onClick={props.click}>
         I'm {props["nombre"]} and I'm {props["edad"]} years old!
       </p>
